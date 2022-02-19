@@ -1,10 +1,17 @@
 package com.footballScore.FootballScore.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class RegistrationToken {
 
     private static final int EXPIRATION_TIME = 10;
@@ -22,6 +29,7 @@ public class RegistrationToken {
     private User user;
 
     public RegistrationToken(User user, String token) {
+        super();
         this.token = token;
         this.user = user;
         this.expirationDate = generateExpirationDate(EXPIRATION_TIME);
