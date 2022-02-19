@@ -1,0 +1,12 @@
+version: '0.1'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: football_score
+    ports:
+      - "3307:3306"
