@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/football_site
     username: root
-    password: #ASK_YOUR_COLLEAGUE#
+    password: #ASK_YOUR_COLLEAGUE_#
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
