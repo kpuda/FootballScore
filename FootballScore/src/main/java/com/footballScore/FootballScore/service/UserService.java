@@ -6,4 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
     String registerUser(UserModel userModel, HttpServletRequest request);
+
+    String verifyRegistration(String token);
 }
