@@ -6,7 +6,6 @@ import com.footballScore.FootballScore.model.UserModel;
 import com.footballScore.FootballScore.repository.RegistrationTokenRepository;
 import com.footballScore.FootballScore.repository.UserRepository;
 import com.footballScore.FootballScore.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -19,7 +18,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -27,6 +25,13 @@ public class UserServiceImpl implements UserService {
     RegistrationTokenRepository registrationTokenRepository;
     PasswordEncoder passwordEncoder;
     JavaMailSenderImpl javaMailSender;
+
+    public UserServiceImpl(UserRepository userRepository, RegistrationTokenRepository registrationTokenRepository, PasswordEncoder passwordEncoder, JavaMailSenderImpl javaMailSender) {
+        this.userRepository = userRepository;
+        this.registrationTokenRepository = registrationTokenRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.javaMailSender = javaMailSender;
+    }
 
     @Override
     @Transactional
@@ -62,7 +67,6 @@ public class UserServiceImpl implements UserService {
     public String verifyRegistration(String token) {
         RegistrationToken registrationToken = registrationTokenRepository.findByToken(token);
         if (registrationToken == null) {
-            //todo resend token
             return "no_registration_token";
         } else {
             if (registrationToken.getExpirationDate().getTime() < new Date().getTime()) {

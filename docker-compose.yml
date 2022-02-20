@@ -1,4 +1,4 @@
-version: '0.1'
+version: '3.7'
 
 services:
   db:
@@ -10,3 +10,11 @@ services:
       MYSQL_DATABASE: football_score
     ports:
       - "3307:3306"
+  app:
+    depends_on:
+      - db
+    image: football:v2
+    #build: "./FootballScore"
+    restart: on-failure
+    ports:
+      - 8080:8080
