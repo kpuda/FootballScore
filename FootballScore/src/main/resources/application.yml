@@ -8,6 +8,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   mail:
     properties:
       mail:
@@ -20,4 +23,6 @@ spring:
     username: #USERNAME#
     password: #PASSWORD#
     port: '587'
-
+logging:
+  level:
+    root: INFO
