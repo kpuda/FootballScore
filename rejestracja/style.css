@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 500px;
+  position: absolute;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+}
+
+form {
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: bold;
+
+}
+
+.text {
+  margin-bottom: 10px;
+
+}
+
+.container {
+  padding: 16px;
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.uil {
+  font-size: 20px;
+}
+
+
+input[type=text],
+input[type=password] {
+  font-family: 'Red Hat Display';
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border-radius: 25px;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.forget a {
+  text-decoration: none;
+  color: black;
+  transition: .3s;
+}
+
+.forget a:hover {
+  color: blue;
+
+}
+
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+  position: absolute;
+  display: block;
+
+}
+
+
+.btn {
+  background-color: #062ddd;
+  font-family: 'Red Hat Display';
+  display: block;
+  color: white;
+  padding: 16px 20px;
+  margin: 20px auto;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 60%;
+  opacity: 0.9;
+  transition: .4s;
+  border: 3px solid #062ddd;
+
+}
+
+.btn:hover {
+  opacity: 1;
+  color: #062ddd;
+  border: 3px solid #062ddd;
+  background-color: white;
+
+}
+
+a {
+  color: dodgerblue;
+
+}
+
+
+.signin {
+
+  text-align: center;
+}
+
+p.account {
+  margin-top: -25px;
+}
