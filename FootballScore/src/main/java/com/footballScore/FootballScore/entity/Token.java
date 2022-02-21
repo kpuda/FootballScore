@@ -1,5 +1,7 @@
 package com.footballScore.FootballScore.entity;
 
+import com.footballScore.FootballScore.enums.TokenType;
+import com.footballScore.FootballScore.enums.TokenValid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +25,8 @@ public class Token {
     private Date expirationDate;
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;
+    @Enumerated(EnumType.STRING)
+    private TokenValid tokenValid;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",
@@ -30,12 +34,13 @@ public class Token {
             foreignKey = @ForeignKey(name = "FK_USER_VERIFY_TOKEN"))
     private User user;
 
-    public Token(User user, String token,TokenType tokenType) {
+    public Token(User user, String token,TokenType tokenType,TokenValid tokenValid) {
         super();
         this.token = token;
         this.user = user;
         this.expirationDate = generateExpirationDate(EXPIRATION_TIME);
         this.tokenType=tokenType;
+        this.tokenValid=tokenValid;
     }
 
     private Date generateExpirationDate(int expirationDate) {

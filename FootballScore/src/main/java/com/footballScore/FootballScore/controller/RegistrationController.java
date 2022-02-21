@@ -1,5 +1,6 @@
 package com.footballScore.FootballScore.controller;
 
+import com.footballScore.FootballScore.model.PasswordModel;
 import com.footballScore.FootballScore.model.UserModel;
 import com.footballScore.FootballScore.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,21 @@ public class RegistrationController {
     @PostMapping("/verifyRegistration")
     public String verifyRegistration(@RequestParam("token") String token) {
         return userService.verifyRegistration(token);
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody PasswordModel passwordModel, final  HttpServletRequest request){
+        return userService.changePasssword(passwordModel,request);
+    }
+
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestBody PasswordModel passwordModel,final HttpServletRequest request){
+        return userService.resetPassword(passwordModel,request);
+    }
+
+    @PostMapping("/savePassword")
+    public String savePassword(@RequestParam("token") String token, @RequestBody PasswordModel passwordModel){
+        return userService.savePassword(token,passwordModel);
     }
 
 }
