@@ -47,14 +47,7 @@ public class UserServiceImpl implements UserService {
             url = generateVerificationTokenUrl(generateUrl(request), registrationToken);
             userRepository.save(user);
             registrationTokenRepository.save(registrationToken);
-
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("noreply@baeldung.com");
-            message.setTo(user.getEmail());
-            message.setSubject("Registration");
-            message.setText(url);
-            message.setReplyTo(user.getEmail());
-            sendEmail(message);
+            // TODO sendEmailWithVerificationToken(user, url);
             log.info("Url: {}", url);
             log.info("Token: {}", token);
 
@@ -84,9 +77,14 @@ public class UserServiceImpl implements UserService {
         return "user_verified";
     }
 
-    private void sendEmail(SimpleMailMessage message) {
+    private void sendEmailWithVerificationToken(User user,String url) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("noreply@baeldung.com");
+        message.setTo(user.getEmail());
+        message.setSubject("Registration");
+        message.setText(url);
+        message.setReplyTo(user.getEmail());
         javaMailSender.send(message);
-
     }
 
     private User generateUser(UserModel userModel) {
