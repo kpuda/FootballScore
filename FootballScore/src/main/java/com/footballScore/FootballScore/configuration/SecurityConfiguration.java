@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    String[] WHITELIST_SITES = {"/newUser","/verifyRegistration","/hello"};
+    String[] WHITELIST_SITES = {"/newUser","/verifyRegistration","/hello","/changePassword","/savePassword","/resetPassword"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
