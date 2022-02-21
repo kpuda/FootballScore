@@ -1,9 +1,10 @@
 package com.footballScore.FootballScore.service.impl;
 
-import com.footballScore.FootballScore.entity.RegistrationToken;
+import com.footballScore.FootballScore.entity.Token;
+import com.footballScore.FootballScore.entity.TokenType;
 import com.footballScore.FootballScore.entity.User;
 import com.footballScore.FootballScore.model.UserModel;
-import com.footballScore.FootballScore.repository.RegistrationTokenRepository;
+import com.footballScore.FootballScore.repository.TokenRepository;
 import com.footballScore.FootballScore.repository.UserRepository;
 import com.footballScore.FootballScore.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +23,13 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
-    RegistrationTokenRepository registrationTokenRepository;
+    TokenRepository tokenRepository;
     PasswordEncoder passwordEncoder;
     JavaMailSenderImpl javaMailSender;
 
-    public UserServiceImpl(UserRepository userRepository, RegistrationTokenRepository registrationTokenRepository, PasswordEncoder passwordEncoder, JavaMailSenderImpl javaMailSender) {
+    public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JavaMailSenderImpl javaMailSender) {
         this.userRepository = userRepository;
-        this.registrationTokenRepository = registrationTokenRepository;
+        this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.javaMailSender = javaMailSender;
     }
@@ -43,10 +44,10 @@ public class UserServiceImpl implements UserService {
         } else {
             user = generateUser(userModel);
             String token = UUID.randomUUID().toString();
-            RegistrationToken registrationToken = new RegistrationToken(user, token);
+            Token registrationToken = new Token(user, token, TokenType.NEW_ACCOUNT_VERIFICATION);
             url = generateVerificationTokenUrl(generateUrl(request), registrationToken);
             userRepository.save(user);
-            registrationTokenRepository.save(registrationToken);
+            tokenRepository.save(registrationToken);
             // TODO sendEmailWithVerificationToken(user, url);
             log.info("Url: {}", url);
             log.info("Token: {}", token);
@@ -58,13 +59,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String verifyRegistration(String token) {
-        RegistrationToken registrationToken = registrationTokenRepository.findByToken(token);
+        Token registrationToken = tokenRepository.findByToken(token);
         if (registrationToken == null) {
-            return "no_registration_token";
+            return "no_token_found";
         } else {
             if (registrationToken.getExpirationDate().getTime() < new Date().getTime()) {
                 return "token_expired";
             } else {
+                if (!registrationToken.getTokenType().equals(TokenType.NEW_ACCOUNT_VERIFICATION)){
+                    return "invalid_token_type";
+                }
                 User user = registrationToken.getUser();
                 if (user.isEnabled()) {
                     return "user_verified_already";
@@ -103,7 +107,7 @@ public class UserServiceImpl implements UserService {
                 request.getContextPath();
     }
 
-    private String generateVerificationTokenUrl(String applicationUrl, RegistrationToken token) {
+    private String generateVerificationTokenUrl(String applicationUrl, Token token) {
         return applicationUrl +
                 "/verifyRegistration?token=" +
                 token.getToken();

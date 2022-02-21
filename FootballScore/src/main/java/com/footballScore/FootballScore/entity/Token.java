@@ -12,7 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegistrationToken {
+public class Token {
 
     private static final int EXPIRATION_TIME = 10;
 
@@ -21,6 +21,8 @@ public class RegistrationToken {
     private long id;
     private String token;
     private Date expirationDate;
+    @Enumerated(EnumType.STRING)
+    private TokenType tokenType;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",
@@ -28,11 +30,12 @@ public class RegistrationToken {
             foreignKey = @ForeignKey(name = "FK_USER_VERIFY_TOKEN"))
     private User user;
 
-    public RegistrationToken(User user, String token) {
+    public Token(User user, String token,TokenType tokenType) {
         super();
         this.token = token;
         this.user = user;
         this.expirationDate = generateExpirationDate(EXPIRATION_TIME);
+        this.tokenType=tokenType;
     }
 
     private Date generateExpirationDate(int expirationDate) {
